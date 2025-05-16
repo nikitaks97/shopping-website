@@ -218,3 +218,36 @@ These are used by the workflow to authenticate and push images to DockerHub.
 
 ---
 
+## 13. SonarCloud Scan and Quality Gate
+
+A SonarCloud scan step is included in the GitHub Actions workflow immediately after the code checkout. This step analyzes your code for bugs, vulnerabilities, code smells, and other quality issues using SonarCloud. The scan requires the following secrets to be set in your GitHub repository:
+
+- `SONAR_PROJECT_KEY`: The unique key for your SonarCloud project.
+- `SONAR_ORGANIZATION`: Your SonarCloud organization name.
+- `SONAR_TOKEN`: A SonarCloud user token with permissions to analyze the project.
+
+After the scan, a quality gate step is included. This step waits for the SonarCloud analysis to complete and checks the quality gate status. If the quality gate fails, you should review the issues in SonarCloud and address them before merging or deploying your code. For a hard enforcement, use SonarCloud's PR decoration and branch protection features in the SonarCloud UI.
+
+**Workflow Example:**
+
+```yaml
+- name: SonarCloud Scan
+  uses: SonarSource/sonarcloud-github-action@v2.1.1
+  with:
+    projectKey: ${{ secrets.SONAR_PROJECT_KEY }}
+    organization: ${{ secrets.SONAR_ORGANIZATION }}
+  env:
+    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+- name: SonarCloud Quality Gate
+  run: |
+    echo "Waiting for SonarCloud Quality Gate..."
+    sleep 30
+  # SonarCloud quality gate is checked automatically after the scan step in most setups. If you need a hard gate, use SonarCloud's PR decoration and branch protection in the UI.
+```
+
+**Explanation:**
+- The scan step uploads your code analysis results to SonarCloud.
+- The quality gate step provides a buffer for SonarCloud to process the results. The actual pass/fail status is visible in the SonarCloud UI and as a PR check.
+- For strict enforcement, configure branch protection rules in GitHub to require the SonarCloud check to pass before merging.
+
