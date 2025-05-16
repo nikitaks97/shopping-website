@@ -24,10 +24,18 @@ jobs:
 
       - name: Build
         run: dotnet build --no-restore --configuration Release
+      - name: Install dotnet-ef
+        run: dotnet tool install --global dotnet-ef
 
-      - name: Run migrations
+      - name: Add dotnet tools to PATH
+        run: echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Update database
         run: dotnet ef database update
-
+        
       - name: Test
         run: dotnet test --no-build --verbosity normal
         continue-on-error: true
@@ -44,8 +52,8 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags:  ${{ vars.DOCKERHUB_USERNAME }}/dotnet:latest 
-    
+          tags:  ${{ vars.DOCKERHUB_USERNAME }}/dotnet:latest
+      
       
       
       
