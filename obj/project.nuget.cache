@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UCf7q7HSQhM=",
+  "dgSpecHash": "+DAFv8nhipM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\nikit\\iCloudDrive\\git\\.NET- project\\shopping-website\\shopping-website.csproj",
+  "projectFilePath": "C:\\Users\\nikit\\iCloudDrive\\git\\dot-net-project\\shopping-website\\shopping-website\\shopping-website.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nikit\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\nikit\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",

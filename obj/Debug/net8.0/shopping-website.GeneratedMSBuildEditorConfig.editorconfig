@@ -9,29 +9,29 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = shopping-website
 build_property.RootNamespace = shopping-website
-build_property.ProjectDir = c:\Users\nikit\iCloudDrive\git\dot-net-project\shopping-website\
+build_property.ProjectDir = C:\Users\nikit\iCloudDrive\git\dot-net-project\shopping-website\shopping-website\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = c:\Users\nikit\iCloudDrive\git\dot-net-project\shopping-website
+build_property.MSBuildProjectDirectory = C:\Users\nikit\iCloudDrive\git\dot-net-project\shopping-website\shopping-website
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[c:/Users/nikit/iCloudDrive/git/dot-net-project/shopping-website/Views/Home/Index.cshtml]
+[C:/Users/nikit/iCloudDrive/git/dot-net-project/shopping-website/shopping-website/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/nikit/iCloudDrive/git/dot-net-project/shopping-website/Views/Products/Details.cshtml]
+[C:/Users/nikit/iCloudDrive/git/dot-net-project/shopping-website/shopping-website/Views/Products/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/nikit/iCloudDrive/git/dot-net-project/shopping-website/Views/Products/Index.cshtml]
+[C:/Users/nikit/iCloudDrive/git/dot-net-project/shopping-website/shopping-website/Views/Products/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/nikit/iCloudDrive/git/dot-net-project/shopping-website/Views/Shared/_Layout.cshtml]
+[C:/Users/nikit/iCloudDrive/git/dot-net-project/shopping-website/shopping-website/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
