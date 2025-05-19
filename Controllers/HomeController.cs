@@ -3,17 +3,20 @@ using Microsoft.EntityFrameworkCore;
 using shopping_website.Models;
 using System.Linq;
 
-public class HomeController : Controller
+namespace ShoppingWebsite.Controllers
 {
-    private readonly AppDbContext _context;
-    public HomeController(AppDbContext context)
+    public class HomeController : Controller
     {
-        _context = context;
-    }
+        private readonly AppDbContext _context;
+        public HomeController(AppDbContext context)
+        {
+            _context = context;
+        }
 
-    public IActionResult Index()
-    {
-        var products = _context.Products.ToList();
-        return View(products);
+        public IActionResult Index()
+        {
+            var products = _context.Products.ToList();
+            return View(products);
+        }
     }
 }
