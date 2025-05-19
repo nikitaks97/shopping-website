@@ -75,7 +75,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags:  ${{ vars.DOCKERHUB_USERNAME }}/dotnet:latest
+          tags:  ${{ vars.DOCKERHUB_USERNAME }}/dotnet:latest 
 
 
 
