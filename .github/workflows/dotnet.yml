@@ -21,7 +21,7 @@ jobs:
           args: >
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
-            -Dsonar.cs.vstest.reportsPaths=TestResults/*.trx
+            -Dsonar.cs.vstest.reportsPaths=MyApp.Tests/*.trx
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
@@ -58,7 +58,7 @@ jobs:
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
         with:
-          name: TestResults
+          name: MyApp.Tests
           path: TestResults/*.trx
 
       - name: docker login
