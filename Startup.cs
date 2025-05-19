@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using shopping_website.Models;
 
-namespace ShoppingWebsite
+namespace shopping_website
 {
     public class Startup
     {
