@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # Only use SonarScanner for .NET steps for C# analysis
       - name: Setup .NET
@@ -75,7 +77,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags:  ${{ vars.DOCKERHUB_USERNAME }}/dotnet:latest 
+          tags:  ${{ vars.DOCKERHUB_USERNAME }}/dotnet:latest
 
 
 
