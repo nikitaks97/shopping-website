@@ -45,8 +45,8 @@ jobs:
       - name: Test
         run: |
           mkdir -p TestResults
-          dotnet test --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
-          ls -l TestResults
+          dotnet test --no-build --verbosity normal  #--logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+         # ls -l TestResults
         continue-on-error: true
 
       - name: Upload Test Results
