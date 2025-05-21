@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: shopping-website
-        image: ${{ vars.DOCKERHUB_USERNAME }}/dotnet:latest
+        image: nikitaks997797/dotnet:latest
         ports:
         - containerPort: 80
         env:
