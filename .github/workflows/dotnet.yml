@@ -38,12 +38,6 @@ jobs:
           reportgenerator -reports:TestResults/**/coverage.cobertura.xml -targetdir:TestResults -reporttypes:opencover
         continue-on-error: true
 
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
-
-      - name: Update database
-        run: dotnet ef database update
-
       - name: SonarCloud Begin
         run: >
           dotnet tool install --global dotnet-sonarscanner
@@ -51,11 +45,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: TestResults
-          path: TestResults/*.trx
+      - name: Build
+        run: dotnet build shopping-website.sln --no-restore --configuration Release
 
       - name: SonarCloud End
         run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
