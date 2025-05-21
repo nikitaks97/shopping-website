@@ -38,10 +38,15 @@ jobs:
           reportgenerator -reports:TestResults/**/coverage.cobertura.xml -targetdir:TestResults -reporttypes:opencover
         continue-on-error: true
 
+      - name: Verify Test Results Directory
+        run: |
+          echo "Listing contents of TestResults directory:"
+          ls -l TestResults
+
       - name: SonarCloud Begin
         run: >
           dotnet tool install --global dotnet-sonarscanner
-          && dotnet sonarscanner begin /k:"${{ secrets.SONAR_PROJECT_KEY }}" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.vstest.reportsPaths="TestResults/*.trx" /d:sonar.cs.opencover.reportsPaths="TestResults/coverage.opencover.xml"
+          && dotnet sonarscanner begin /k:"${{ secrets.SONAR_PROJECT_KEY }}" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.vstest.reportsPaths="TestResults/*.trx" /d:sonar.cs.opencover.reportsPaths="TestResults/coverage.cobertura.xml"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
