@@ -14,6 +14,11 @@ spec:
       labels:
         app: shopping-website
     spec:
+      tolerations:
+      - effect: NoSchedule
+        key: role
+        operator: Equal
+        value: apps-auto-mode   
       containers:
       - name: shopping-website
         image: nikitaks997797/dotnet:latest
@@ -28,6 +33,7 @@ spec:
             cpu: "250m"
           limits:
             memory: "256Mi"
+<<<<<<< HEAD:k8s-deployment.yaml
             cpu: "500m"
         livenessProbe:
           httpGet:
@@ -48,3 +54,6 @@ spec:
       - name: dataprotection-keys
         emptyDir: {}
 
+=======
+            cpu: "500m"
+>>>>>>> 535fc471c1637c104daf4f43ca28f7e660116b57:k8s/k8s-deployment.yaml
