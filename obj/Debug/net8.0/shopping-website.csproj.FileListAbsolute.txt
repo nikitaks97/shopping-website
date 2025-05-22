@@ -120,3 +120,16 @@ C:\Users\nikit\iCloudDrive\git\.NET- project\shopping-website\obj\Debug\net8.0\r
 C:\Users\nikit\iCloudDrive\git\.NET- project\shopping-website\obj\Debug\net8.0\shopping-website.pdb
 C:\Users\nikit\iCloudDrive\git\.NET- project\shopping-website\obj\Debug\net8.0\shopping-website.genruntimeconfig.cache
 C:\Users\nikit\iCloudDrive\git\.NET- project\shopping-website\obj\Debug\net8.0\ref\shopping-website.dll
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\shopping-website.csproj.AssemblyReference.cache
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\shopping-website.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\shopping-website.AssemblyInfoInputs.cache
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\shopping-website.AssemblyInfo.cs
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\shopping-website.csproj.CoreCompileInputs.cache
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\shopping-website.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\shopping-website.RazorAssemblyInfo.cache
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\shopping-website.RazorAssemblyInfo.cs
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\shopping-website.sourcelink.json
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\scopedcss\bundle\shopping-website.styles.css
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\shopping-website.dll
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\refint\shopping-website.dll
+C:\Users\nikit\codes\shopping-website\obj\Debug\net8.0\shopping-website.pdb

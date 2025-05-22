@@ -41,4 +41,10 @@ spec:
             port: 80
           initialDelaySeconds: 3
           periodSeconds: 10
+        volumeMounts:
+        - name: dataprotection-keys
+          mountPath: /root/.aspnet/DataProtection-Keys
+      volumes:
+      - name: dataprotection-keys
+        emptyDir: {}
 
