@@ -33,7 +33,6 @@ spec:
             cpu: "250m"
           limits:
             memory: "256Mi"
-<<<<<<< HEAD:k8s-deployment.yaml
             cpu: "500m"
         livenessProbe:
           httpGet:
@@ -53,7 +52,3 @@ spec:
       volumes:
       - name: dataprotection-keys
         emptyDir: {}
-
-=======
-            cpu: "500m"
->>>>>>> 535fc471c1637c104daf4f43ca28f7e660116b57:k8s/k8s-deployment.yaml
