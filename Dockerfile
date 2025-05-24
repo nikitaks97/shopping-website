@@ -18,8 +18,8 @@ WORKDIR /app
 COPY --from=build /app/out .
 COPY --from=build /app/shoppingwebsite.db .
 
-# Expose port 80
-EXPOSE 80
+# Expose port 5000
+EXPOSE 5000
 
 # Set the entrypoint
 ENTRYPOINT ["dotnet", "shopping-website.dll"]

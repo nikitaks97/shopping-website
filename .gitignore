@@ -1,0 +1,15 @@
+bin/
+obj/
+node_modules/
+*.log
+*.tmp
+*.swp
+*.DS_Store
+Thumbs.db
+*.user
+*.suo
+*.ide
+*.cache
+/coveragereport/
+*.coverage
+*.coveragexml
