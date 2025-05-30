@@ -99,6 +99,7 @@ To ensure your application is working as expected, run the automated tests:
 dotnet test --no-build --verbosity normal   # Runs all tests without rebuilding the project
 ```
 
+
 - The `--no-build` flag skips the build step, assuming the project is already built.
 - The `--verbosity normal` flag provides standard output, showing test results and any errors.
 - Review the output to ensure all tests pass. If any tests fail, review the error messages and fix the issues before proceeding.
