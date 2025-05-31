@@ -37,26 +37,16 @@ jobs:
             /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
             /o:"${{ secrets.SONAR_ORGANIZATION }}" \
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
-            /d:sonar.cs.vscoveragexml.reportsPaths="TestResults/coverage.xml"
+            /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build  --no-incremental
 
       - name: Test with Coverage
-        run: |
-          dotnet test shopping-website.csproj --no-build --configuration Release --collect:"XPlat Code Coverage" --results-directory TestResults
-          # Find the coverage file and copy it to the expected location for SonarCloud
-          coverage_file=$(find TestResults -type f -name 'coverage.cobertura.xml' | head -n 1)
-          if [ -f "$coverage_file" ]; then
-            cp "$coverage_file" TestResults/coverage.xml
-          else
-            echo "No coverage file generated."
-          fi
-        shell: bash
-        continue-on-error: true
-
+        run: dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
+        
       - name: SonarCloud End
         run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         env:
