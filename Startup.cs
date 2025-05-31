@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using shopping_website.Models;
+using shopping_website.Data;
 
 namespace shopping_website
 {
@@ -33,6 +34,13 @@ namespace shopping_website
             {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
+            }
+
+            // Initialize database with seed data
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                DbInitializer.Initialize(context);
             }
 
             app.UseHttpsRedirection();

@@ -1,26 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shopping Website</title>
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>
-    <div class="container">
-        <h1>Welcome to Our Shopping Website</h1>
-        <h2>Products</h2>
-        <div class="product-list">
-            @foreach (var product in Model)
-            {
-                <div class="product-item">
-                    <h3>@product.Name</h3>
-                    <p>@product.Description</p>
-                    <p>Price: @product.Price.ToString("C")</p>
-                    <p>Stock: @product.Stock</p>
-                </div>
-            }
-        </div>
+@model IEnumerable<shopping_website.Models.Product>
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h1>Welcome to Our Shopping Website</h1>
+    <h2>Products</h2>
+    <div class="product-list">
+        @foreach (var product in Model)
+        {
+            <div class="product-item">
+                <h3>@product.Name</h3>
+                <p>@product.Description</p>
+                <p class="price">Price: @product.Price.ToString("C")</p>
+                <p>Stock: @product.Stock</p>
+            </div>
+        }
     </div>
-</body>
-</html>
+</div>

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using shopping_website.Models;
 using System.Linq;
 
-namespace ShoppingWebsite.Controllers
+namespace shopping_website.Controllers
 {
     public class HomeController : Controller
     {

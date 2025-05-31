@@ -1,15 +1,18 @@
 @model IEnumerable<shopping_website.Models.Product>
 @{
     ViewData["Title"] = "Products";
+    Layout = "_Layout";
 }
+
 <h1>Products</h1>
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
             <th>Stock</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +23,9 @@
                 <td>@product.Description</td>
                 <td>@product.Price.ToString("C")</td>
                 <td>@product.Stock</td>
+                <td>
+                    <a href="/Products/Details/@product.Id" class="btn btn-info">Details</a>
+                </td>
             </tr>
         }
     </tbody>

@@ -19,5 +19,16 @@ namespace shopping_website.Controllers
             var products = _context.Products.ToList();
             return View(products);
         }
+
+        // GET: /Products/Details/5
+        public IActionResult Details(int id)
+        {
+            var product = _context.Products.Find(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
     }
 }

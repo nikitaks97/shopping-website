@@ -18,8 +18,8 @@ WORKDIR /app
 COPY --from=build /app/out .
 COPY --from=build /app/shoppingwebsite.db .
 
-# Expose port 5000
-EXPOSE 5000
+# Expose port 80 (standard ASP.NET Core port in containers)
+EXPOSE 80
 
 # Set the entrypoint
 ENTRYPOINT ["dotnet", "shopping-website.dll"]

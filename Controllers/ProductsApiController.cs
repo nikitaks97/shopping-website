@@ -36,6 +36,11 @@ namespace shopping_website.Controllers
         [HttpPost]
         public ActionResult<Product> CreateProduct(Product product)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             _context.Products.Add(product);
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
@@ -44,11 +49,17 @@ namespace shopping_website.Controllers
         [HttpPut("{id}")]
         public ActionResult UpdateProduct(int id, Product product)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var existingProduct = _context.Products.Find(id);
             if (existingProduct == null)
             {
                 return NotFound();
             }
+            
             existingProduct.Name = product.Name;
             existingProduct.Description = product.Description;
             existingProduct.Price = product.Price;
