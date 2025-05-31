@@ -1,6 +1,6 @@
 
 # GitHub Actions workflow for .NET build and test
-name: EKS Login
+name: Deploy to EKS
 
 on:
   push:

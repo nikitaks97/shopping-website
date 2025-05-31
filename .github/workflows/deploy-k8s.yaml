@@ -1,4 +1,4 @@
-name: deploy to k8s
+name: Deploy to k8s
 on:
   push:
     branches: [ main ]
@@ -24,9 +24,9 @@ jobs:
         run: |
           kubectl apply -f k8s/k8s-deployment.yaml
           kubectl apply -f k8s/k8s-service.yaml
+          
       - name: verify deployment
         run: |
-         
           kubectl get pods -n shopping
           kubectl get services -n shopping
           
