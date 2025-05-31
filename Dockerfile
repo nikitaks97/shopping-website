@@ -9,8 +9,8 @@ RUN dotnet restore
 # Copy the rest of the source code
 COPY . .
 
-# Build the application
-RUN dotnet publish -c Release -o out
+# Build the application (build only the main project, not the solution)
+RUN dotnet publish shopping-website.csproj -c Release -o out
 
 # Use the official ASP.NET runtime image for the final container
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
