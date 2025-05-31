@@ -33,31 +33,29 @@ jobs:
 
       - name: SonarCloud Begin
         run: >
-          dotnet sonarscanner begin
-          /k:"${{ secrets.SONAR_PROJECT_KEY }}"
-          /o:"${{ secrets.SONAR_ORGANIZATION }}"
-          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-          /d:sonar.cs.vscoveragexml.reportsPaths="TestResults/coverage.xml"
+          dotnet sonarscanner begin \
+            /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
+            /o:"${{ secrets.SONAR_ORGANIZATION }}" \
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.cs.vscoveragexml.reportsPaths="TestResults/coverage.xml"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Restore dependencies
-        run: dotnet restore
-
       - name: Build
-        run: dotnet build shopping-website.csproj --no-restore --configuration Release
+        run: dotnet build --no-restore --configuration Release
 
       - name: Test with Coverage
         run: |
-          mkdir -p TestResults
-          echo '<?xml version="1.0" encoding="utf-8"?><CoverageSession><Summary numSequencePoints="0" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" /></CoverageSession>' > TestResults/coverage.xml
+          dotnet test shopping-website.csproj --no-build --configuration Release --collect:"XPlat Code Coverage" --results-directory TestResults
+          # Find the coverage file and copy it to the expected location for SonarCloud
+          coverage_file=$(find TestResults -type f -name 'coverage.cobertura.xml' | head -n 1)
+          if [ -f "$coverage_file" ]; then
+            cp "$coverage_file" TestResults/coverage.xml
+          else
+            echo "No coverage file generated."
+          fi
+        shell: bash
         continue-on-error: true
-
-      - name: Debug Coverage Output
-        run: |
-          echo "Listing TestResults contents:"
-          ls -l TestResults
-          cat TestResults/coverage.xml || echo "Coverage file not found!"
 
       - name: SonarCloud End
         run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
@@ -79,7 +77,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/dotnet:latest
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/dotnet:latest,${{ vars.DOCKERHUB_USERNAME }}/dotnet:${{ github.sha }}
 
       #- name: Configure AWS credentials
       #  uses: aws-actions/configure-aws-credentials@v4
