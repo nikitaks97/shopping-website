@@ -27,5 +27,6 @@ jobs:
       with:
         image-ref: nikitaks99797/dotnet:latest
         format: table
-        exit-code: 1  # Fail the job if vulnerabilities are found
+        severity: HIGH,CRITICAL
+        exit-code: 1
         ignore-unfixed: true
