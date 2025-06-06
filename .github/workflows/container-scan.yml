@@ -27,6 +27,6 @@ jobs:
       with:
         image-ref: nikitaks99797/dotnet:latest
         format: table
-        #severity: HIGH,CRITICAL
+        severity: HIGH,CRITICAL
         exit-code: 1
         ignore-unfixed: true
