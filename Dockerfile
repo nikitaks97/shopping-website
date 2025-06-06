@@ -12,7 +12,7 @@ COPY . .
 # Build the application (build only the main project, not the solution)
 RUN dotnet publish shopping-website.csproj -c Release -o out
 
-# Use the official ASP.NET runtime image for the final container
+# Use the official ASP.NET runtime image for the final container (always pull latest patch)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/out .
