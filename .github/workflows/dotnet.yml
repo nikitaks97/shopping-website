@@ -70,17 +70,19 @@ jobs:
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/dotnet:latest,${{ vars.DOCKERHUB_USERNAME }}/dotnet:${{ github.sha }}
 
-      #- name: Configure AWS credentials
-      #  uses: aws-actions/configure-aws-credentials@v4
-      #  with:
-      #    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #    aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-      #    aws-region: ${{ vars.AWS_REGION }}
-      #    role-session-name: MySessionName
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+          
 
-      #- name: Update kubeconfig for EKS
-      #  run: aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ vars.AWS_REGION }}
+      - name: Update kubeconfig for EKS
+        run: aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ vars.AWS_REGION }}
 
-      #- name: Deploy to EKS
-      #  run: kubectl apply -f k8s-deployment.yaml
+      - name: Deploy to EKS
+        run: |
+           kubectl apply -f k8s/k8s-deployment.yaml
+           kubectl apply -f k8s/k8s-service.yaml
+        
