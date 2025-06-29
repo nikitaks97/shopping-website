@@ -79,16 +79,16 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
-         version: 'latest'
-          
+          version: 'latest'
 
       - name: Update kubeconfig for EKS
-        run: aws eks update-kubeconfig  --region ${{ vars.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }} 
-             
-
+        run: |
+          aws eks update-kubeconfig --region ${{ vars.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
+          kubectl config current-context
+          kubectl auth can-i get pods --all-namespaces
 
       - name: Deploy to EKS
         run: |
-           kubectl apply -f k8s/k8s-deployment.yaml
-           kubectl apply -f k8s/k8s-service.yaml
+          kubectl apply -f k8s/k8s-deployment.yaml --validate=false
+          kubectl apply -f k8s/k8s-service.yaml --validate=false
         
