@@ -68,7 +68,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/dotnet:{{ github.run_number }},${{ vars.DOCKERHUB_USERNAME }}/dotnet:${{ github.sha }}
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/dotnet:${{ github.run_number }},${{ vars.DOCKERHUB_USERNAME }}/dotnet:${{ github.sha }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
