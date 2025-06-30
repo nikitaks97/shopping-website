@@ -118,14 +118,14 @@ jobs:
         run: |
           # Create namespace without validation
          # kubectl create namespace shopping --validate=false --dry-run=client -o yaml | kubectl apply -f - --validate=false || echo "Namespace may already exist"
-          
+        
           # Apply deployments without validation
-          kubectl apply -f k8s/k8s-deployment.yaml --validate=false
-          kubectl apply -f k8s/k8s-service.yaml --validate=false
+           kubectl apply -f k8s/k8s-deployment.yaml --validate=false
+           kubectl apply -f k8s/k8s-service.yaml --validate=false
 
           # Verify deployment status
-          kubectl get pods -n shopping || echo "Could not get pods"
-          kubectl get services -n shopping || echo "Could not get services"
+           kubectl get pods -n shopping || echo "Could not get pods"
+           kubectl get services -n shopping || echo "Could not get services"
 
       
       
