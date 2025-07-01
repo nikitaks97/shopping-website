@@ -15,6 +15,8 @@ spec:
       labels:
         app: shopping-website
     spec:
+      imagePullSecrets:
+      - name: regcred  # 👈 secret that allows EKS to pull from Docker Hub
       tolerations:
       - effect: NoSchedule
         key: role
