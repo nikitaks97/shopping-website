@@ -71,7 +71,9 @@ jobs:
         ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com
         ECR_REPOSITORY: dotnet
       run: |
+        
         IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        aws ecr create-repository --repository-name dotnet
         docker build -t $IMAGE_URI .
         docker push $IMAGE_URI
         echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
