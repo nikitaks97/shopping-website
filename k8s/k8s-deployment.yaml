@@ -22,7 +22,7 @@ spec:
         value: apps-auto-mode   
       containers:
       - name: shopping-website
-        image: nikitaks997797/dotnet:latest
+        image: nikitaks997797/dotnet:$IMAGE_TAG
       imagePullSecrets:
        - name: regcred
         ports:
