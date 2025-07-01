@@ -121,9 +121,9 @@ jobs:
 
            # name: Clean up existing resources
   
-           kubectl delete deployment inventory-app --ignore-not-found
-           kubectl delete service inventory-app --ignore-not-found
-           kubectl delete ingress inventory-app --ignore-not-found
+           kubectl delete deployment shopping-website --ignore-not-found
+           kubectl delete service shopping-website --ignore-not-found
+           kubectl delete ingress shopping-website --ignore-not-found
 
           
           # Apply deployments without validation
