@@ -127,6 +127,11 @@ jobs:
 
       - name: Deploy to EKS
         run: |
+
+           # Substitute image tag
+           export IMAGE_TAG=${{ env.IMAGE_TAG }}
+           envsubst < k8s/k8s-deployment.yaml > k8s/k8s-deployment.subst.yaml
+          
            kubectl create namespace shopping --dry-run=client -o yaml | kubectl apply -f - --validate=false || echo "Namespace may already exist"
 
            # Clean up resources 
