@@ -1,8 +1,8 @@
-name: .NET Build and deploy the Application
+name: .NET Build and Deploy the Application
 
 on:
   push:
-    branches: [ main,fix ]
+    branches: [ main, fix ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -12,152 +12,106 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_TAG: ${{ github.run_number }}
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore
+    - name: Restore dependencies
+      run: dotnet restore
 
-      - name: Install dotnet tools
-        run: |
-          dotnet tool install --global dotnet-ef
-          dotnet tool install --global dotnet-sonarscanner
-          dotnet tool install --global dotnet-coverage
-          echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
+    - name: Install dotnet tools
+      run: |
+        dotnet tool install --global dotnet-ef
+        dotnet tool install --global dotnet-sonarscanner
+        dotnet tool install --global dotnet-coverage
+        echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
 
-      - name: SonarCloud Begin
-        run: >
-          dotnet sonarscanner begin \
-            /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
-            /o:"${{ secrets.SONAR_ORGANIZATION }}" \
-            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
-            /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - name: SonarCloud Begin
+      run: >
+        dotnet sonarscanner begin \
+          /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
+          /o:"${{ secrets.SONAR_ORGANIZATION }}" \
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+          /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Build
-        run: dotnet build  --no-incremental
+    - name: Build
+      run: dotnet build --no-incremental
 
-      - name: Test with Coverage
-        run: dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
+    - name: Test with Coverage
+      run: dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'
 
-      - name: SonarCloud End
-        run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+    - name: SonarCloud End
+      run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Build and Push Docker image to ECR
-        env:
-          IMAGE_TAG: ${{ github.run_number }}
-          ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-          ECR_REPOSITORY: dotnet
-        run: |
-          IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker build -t $IMAGE_URI .
-          docker push $IMAGE_URI
-          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
+    - name: Login to Amazon ECR
+      uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'latest'
+    - name: Build and Push Docker image to ECR
+      env:
+        IMAGE_TAG: ${{ github.run_number }}
+        ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com
+        ECR_REPOSITORY: dotnet
+      run: |
+        IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker build -t $IMAGE_URI .
+        docker push $IMAGE_URI
+        echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
-     # - name: Install eksctl
-     #   run: |
-     #     curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-     #     sudo mv /tmp/eksctl /usr/local/bin
-#
-     # - name: Verify AWS Identity
-     #   run: |
-     #     aws sts get-caller-identity
-     #     aws eks describe-cluster --region ${{ vars.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
-#
-     # - name: Add IAM user to EKS RBAC
-     #   run: |
-     #     USER_ARN=$(aws sts get-caller-identity --query Arn --output text)
-     #     eksctl create iamidentitymapping \
-     #       --cluster ${{ secrets.EKS_CLUSTER_NAME }} \
-     #       --region ${{ vars.AWS_REGION }} \
-     #       --arn $USER_ARN \
-     #       --group system:masters \
-     #       --username github-actions
-     #   continue-on-error: true
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
 
-      - name: Update kubeconfig for EKS
-        run: |
-          aws eks update-kubeconfig --region ${{ vars.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
-         
+    - name: Update kubeconfig for EKS
+      run: aws eks update-kubeconfig --region ${{ vars.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
 
-      - name: Test kubectl access
-        run: |
-          kubectl version --client
-          kubectl cluster-info
-        continue-on-error: true
+    - name: Test kubectl access
+      run: |
+        kubectl version --client
+        kubectl cluster-info
+      continue-on-error: true
 
-      - name: Create secret for AWS to pull docker image
-        run:  |
-          kubectl delete secret regcred -n shopping --ignore-not-found
+    - name: Deploy to EKS
+      run: |
+        # Inject ECR image URI into YAML
+        envsubst < k8s/k8s-deployment.yaml > k8s/k8s-deployment.subst.yaml
 
-          kubectl create secret docker-registry regcred \
-           --docker-username=${{ vars.DOCKERHUB_USERNAME }} \
-           --docker-password=${{ secrets.DOCKERHUB_TOKEN }} \
-           --docker-email=any@example.com \
-           -n shopping
+        # Ensure namespace exists
+        kubectl create namespace shopping --dry-run=client -o yaml | kubectl apply -f - --validate=false || echo "Namespace may already exist"
 
-      - name: Deploy to EKS
-        run: |
+        # Clean up old resources
+        kubectl delete deployment shopping-website -n shopping --ignore-not-found
+        kubectl delete service shopping-website -n shopping --ignore-not-found
+        kubectl delete ingress shopping-website -n shopping --ignore-not-found
+        kubectl delete pod -l app=shopping-website -n shopping --grace-period=0 --force --ignore-not-found
+        kubectl delete rs -l app=shopping-website -n shopping --ignore-not-found
 
-           # Substitute image tag
-           export IMAGE_TAG=${{ env.IMAGE_TAG }}
-           envsubst < k8s/k8s-deployment.yaml > k8s/k8s-deployment.subst.yaml
-          
-           kubectl create namespace shopping --dry-run=client -o yaml | kubectl apply -f - --validate=false || echo "Namespace may already exist"
+        # Apply manifests
+        kubectl apply -f k8s/k8s-deployment.subst.yaml --validate=false
+        kubectl apply -f k8s/k8s-service.yaml --validate=false
 
-           # Clean up resources 
-           
-           kubectl delete deployment shopping-website -n shopping --ignore-not-found
-           kubectl delete service shopping-website -n shopping --ignore-not-found
-           kubectl delete ingress shopping-website -n shopping --ignore-not-found
-           kubectl delete pod -l app=shopping-website -n shopping --grace-period=0 --force --ignore-not-found
-           kubectl delete rs -l app=shopping-website -n shopping --ignore-not-found
+        # Wait for deployment readiness
+        kubectl rollout status deployment/shopping-website -n shopping --timeout=180s
 
-           # Apply updated manifests
-           kubectl apply -f k8s/k8s-deployment.subst.yaml --validate=false
-           kubectl apply -f k8s/k8s-service.yaml --validate=false
-
-           # Check status
-           kubectl get pods -n shopping || echo "Could not get pods"
-           kubectl get services -n shopping || echo "Could not get services"
-        
-        
-
-
-      
-       
-      
-      
-        
+        # Verify state
+        kubectl get pods -n shopping || echo "Could not get pods"
+        kubectl get services -n shopping || echo "Could not get services"
