@@ -2,7 +2,7 @@ name: .NET Build and deploy the Application
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main,fix ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -114,6 +114,17 @@ jobs:
           kubectl version --client
           kubectl cluster-info
         continue-on-error: true
+
+      - name: Create secret for AWS to pull docker image
+        run:  |
+          kubectl delete secret regcred -n shopping --ignore-not-found
+
+          kubectl create secret docker-registry regcred \
+           --docker-username=${{ vars.DOCKERHUB_USERNAME }} \
+           --docker-password=${{ secrets.DOCKERHUB_TOKEN }} \
+           --docker-email=any@example.com \
+           -n shopping
+
       - name: Deploy to EKS
         run: |
            kubectl create namespace shopping --dry-run=client -o yaml | kubectl apply -f - --validate=false || echo "Namespace may already exist"
