@@ -64,19 +64,20 @@ jobs:
 
     - name: Login to Amazon ECR
       uses: aws-actions/amazon-ecr-login@v2
+    - name: Create ECR repository
+      run: aws ecr create-repository --repository-name dotnet
 
     - name: Build and Push Docker image to ECR
       env:
         IMAGE_TAG: ${{ github.run_number }}
         ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com
         ECR_REPOSITORY: dotnet
-      run: |
+        run: |
         
-        IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        aws ecr create-repository --repository-name dotnet
-        docker build -t $IMAGE_URI .
-        docker push $IMAGE_URI
-        echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+         IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+         docker build -t $IMAGE_URI .
+         docker push $IMAGE_URI
+         echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
     - name: Set up kubectl
       uses: azure/setup-kubectl@v3
