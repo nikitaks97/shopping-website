@@ -64,14 +64,7 @@ jobs:
 
     - name: Login to Amazon ECR
       uses: aws-actions/amazon-ecr-login@v2
-    - name: Create ECR repository
-      run:   |
-               aws ecr-public describe-repositories \
-               --repository-names dotnet \
-                > /dev/null 2>&1 || \
-                 aws ecr-public create-repository \
-               --repository-name dotnet
-
+      
     - name: Build and Push Docker image to ECR
       env:
         IMAGE_TAG: ${{ github.run_number }}
