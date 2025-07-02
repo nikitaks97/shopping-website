@@ -87,16 +87,16 @@ jobs:
         aws ecr get-login-password --region us-east-1 | \
         docker login --username AWS --password-stdin 381492017305.dkr.ecr.us-east-1.amazonaws.com
 
+
+    - name: Update kubeconfig for EKS
+      run: aws eks update-kubeconfig --region ${{ vars.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
+
     - name: Create Docker Registry Secret in EKS
       run: |
         kubectl delete secret regcred --ignore-not-found
         kubectl create secret generic regcred \
           --from-file=.dockerconfigjson=$HOME/.docker/config.json \
           --type=kubernetes.io/dockerconfigjson
-
-
-    - name: Update kubeconfig for EKS
-      run: aws eks update-kubeconfig --region ${{ vars.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
 
     - name: Test kubectl access
       run: |
