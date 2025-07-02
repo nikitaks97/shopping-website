@@ -24,7 +24,7 @@ spec:
         - name: shopping-website
           image: ${IMAGE_URI}
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Production"

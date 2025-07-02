@@ -82,27 +82,21 @@ jobs:
       with:
         version: 'latest'
 
-    - name: Login to Amazon ECR
-      run: |
-        aws ecr get-login-password --region us-east-1 | \
-        docker login --username AWS --password-stdin 381492017305.dkr.ecr.us-east-1.amazonaws.com
+    #- name: Login to Amazon ECR
+    #  run: |
+    #    aws ecr get-login-password --region us-east-1 | \
+    #    docker login --username AWS --password-stdin 381492017305.dkr.ecr.us-east-1.amazonaws.com
 
 
     - name: Update kubeconfig for EKS
       run: aws eks update-kubeconfig --region ${{ vars.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
 
-    - name: Create Docker Registry Secret in EKS
-      run: |
-        kubectl delete secret regcred --ignore-not-found
-        kubectl create secret generic regcred \
-          --from-file=.dockerconfigjson=$HOME/.docker/config.json \
-          --type=kubernetes.io/dockerconfigjson
-
-    - name: Test kubectl access
-      run: |
-        kubectl version --client
-        kubectl cluster-info
-      continue-on-error: true
+    #- name: Create Docker Registry Secret in EKS
+    #  run: |
+    #    kubectl delete secret regcred --ignore-not-found
+    #    kubectl create secret generic regcred \
+    #      --from-file=.dockerconfigjson=$HOME/.docker/config.json \
+    #      --type=kubernetes.io/dockerconfigjson
 
     - name: Deploy to EKS
       run: |
@@ -112,20 +106,9 @@ jobs:
         # Ensure namespace exists
         kubectl create namespace shopping --dry-run=client -o yaml | kubectl apply -f - --validate=false || echo "Namespace may already exist"
 
-        # Clean up old resources
-        kubectl delete deployment shopping-website -n shopping --ignore-not-found
-        kubectl delete service shopping-website -n shopping --ignore-not-found
-        kubectl delete ingress shopping-website -n shopping --ignore-not-found
-        kubectl delete pod -l app=shopping-website -n shopping --grace-period=0 --force --ignore-not-found
-        kubectl delete rs -l app=shopping-website -n shopping --ignore-not-found
-
         # Apply manifests
         kubectl apply -f k8s/k8s-deployment.subst.yaml --validate=false
         kubectl apply -f k8s/k8s-service.yaml --validate=false
 
         # Wait for deployment readiness
         kubectl rollout status deployment/shopping-website -n shopping --timeout=180s
-
-        # Verify state
-        kubectl get pods -n shopping || echo "Could not get pods"
-        kubectl get services -n shopping || echo "Could not get services"
