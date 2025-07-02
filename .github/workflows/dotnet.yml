@@ -76,11 +76,24 @@ jobs:
          docker build -t $IMAGE_URI .
          docker push $IMAGE_URI
          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV  
-         
+
     - name: Set up kubectl
       uses: azure/setup-kubectl@v3
       with:
         version: 'latest'
+
+    - name: Login to Amazon ECR
+         run: |
+           aws ecr get-login-password --region us-east-1 | \
+           docker login --username AWS --password-stdin 381492017305.dkr.ecr.us-east-1.amazonaws.com
+
+    - name: Create Docker Registry Secret in EKS
+      run: |
+        kubectl delete secret regcred --ignore-not-found
+        kubectl create secret generic regcred \
+          --from-file=.dockerconfigjson=$HOME/.docker/config.json \
+          --type=kubernetes.io/dockerconfigjson
+
 
     - name: Update kubeconfig for EKS
       run: aws eks update-kubeconfig --region ${{ vars.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
