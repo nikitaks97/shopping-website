@@ -68,7 +68,7 @@ jobs:
     - name: Build and Push Docker image to ECR
       env:
         IMAGE_TAG: ${{ github.run_number }}
-        ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com
+        ECR_REGISTRY: public.ecr.aws/n1q4i2k5
         ECR_REPOSITORY: dotnet
       run: |
         
