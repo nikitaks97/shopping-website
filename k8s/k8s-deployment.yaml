@@ -15,8 +15,6 @@ spec:
       labels:
         app: shopping-website
     spec:
-      imagePullSecrets:
-        - name: regcred
       tolerations:
         - effect: NoSchedule
           key: role
