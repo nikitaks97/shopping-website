@@ -54,7 +54,7 @@ shopping-website/
 
 ## 🔄 CI/CD Process Sequence
 
-Our CI/CD pipeline follows a structured sequence to ensure quality and reliable deployments:
+The CI/CD pipeline follows a structured sequence to ensure quality and reliable deployments:
 
 ```mermaid
 graph LR
