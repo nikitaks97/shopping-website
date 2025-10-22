@@ -118,14 +118,6 @@ jobs:
         run: |
            kubectl create namespace shopping --dry-run=client -o yaml | kubectl apply -f - --validate=false || echo "Namespace may already exist"
 
-           # Clean up resources 
-           
-           kubectl delete deployment shopping-website -n shopping --ignore-not-found
-           kubectl delete service shopping-website -n shopping --ignore-not-found
-           kubectl delete ingress shopping-website -n shopping --ignore-not-found
-           kubectl delete pod -l app=shopping-website -n shopping --grace-period=0 --force --ignore-not-found
-           kubectl delete rs -l app=shopping-website -n shopping --ignore-not-found
-
            # Apply updated manifests
            kubectl apply -f k8s/k8s-deployment.yaml --validate=false
            kubectl apply -f k8s/k8s-service.yaml --validate=false
