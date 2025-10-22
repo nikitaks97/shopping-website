@@ -132,7 +132,7 @@ jobs:
 
            # Check status
            kubectl get pods -n shopping || echo "Could not get pods"
-           kubectl get services -n shopping || echo "Could not get services"
+           kubectl get services -n shopping || echo "Could not get services" 
         
         
 
