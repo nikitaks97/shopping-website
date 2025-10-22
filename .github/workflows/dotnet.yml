@@ -49,10 +49,10 @@ jobs:
       - name: Test with Coverage
         run: dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
 
-      - name: SonarCloud End
-        run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+     # - name: SonarCloud End
+      #  run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+       # env:
+        #  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Docker Login
         uses: docker/login-action@v3
