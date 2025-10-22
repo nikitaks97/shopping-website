@@ -88,11 +88,10 @@ jobs:
      #     curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
      #     sudo mv /tmp/eksctl /usr/local/bin
 #
-     # - name: Verify AWS Identity
-     #   run: |
-     #     aws sts get-caller-identity
-     #     aws eks describe-cluster --region ${{ vars.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
-#
+      - name: Verify AWS Identity
+        run: |
+          aws sts get-caller-identity
+          
      # - name: Add IAM user to EKS RBAC
      #   run: |
      #     USER_ARN=$(aws sts get-caller-identity --query Arn --output text)
@@ -102,7 +101,7 @@ jobs:
      #       --arn $USER_ARN \
      #       --group system:masters \
      #       --username github-actions
-     #   continue-on-error: true
+     #  continue-on-error: true
 
       - name: Update kubeconfig for EKS
         run: |
